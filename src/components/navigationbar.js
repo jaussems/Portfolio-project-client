@@ -2,7 +2,17 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
+import { selectUser, selectToken } from "../store/user/selector";
+import { useDispatch, useSelector } from "react-redux";
+import Loggedin from "./LoggedIn";
+import Loggedout from "./Loggedout";
+
 const Navigationbar = () => {
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  const token = useSelector(selectToken);
+
+  const loginLogoutControls = token ? <Loggedin /> : <Loggedout />;
   return (
     <Navbar bg="ligth" expand="lg">
       <Nav
@@ -29,6 +39,7 @@ const Navigationbar = () => {
             </Nav.Link>
           </Nav.Item>
         </Nav>
+        {loginLogoutControls}
       </Nav>
     </Navbar>
   );

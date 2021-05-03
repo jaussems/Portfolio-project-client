@@ -5,9 +5,31 @@ import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 import { Col } from "react-bootstrap";
+import { login } from "../store/user/actions";
+import { selectToken } from "../store/user/selector";
+
 const LoginInPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const token = useSelector(selectToken);
+  const history = useHistory();
+
+  useEffect(() => {
+    if (token !== null) {
+      history.push("/");
+    }
+  }, [token, history]);
+
+  function SubmitForm(event) {
+    console.log("hi");
+    event.preventDefault();
+
+    dispatch(login(email, password));
+
+    setEmail("");
+    setPassword("");
+  }
 
   return (
     <Container>
@@ -20,19 +42,31 @@ const LoginInPage = () => {
           <Form.Group controlId="formGroupEmail">
             <Form.Label>Email address </Form.Label>
             <br />
-            <Form.Control type="email" placeholder="Enter email" />
+            <Form.Control
+              type="email"
+              placeholder="Enter email"
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+            />
           </Form.Group>
         </Container>
         <Container style={{ padding: "5px", margin: "10px" }}>
           <Form.Group controlId="formGroupPassword">
             <Form.Label>Password </Form.Label>
             <br />
-            <Form.Control type="password" placeholder="Password" />
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
           </Form.Group>
         </Container>
         <Container>
           <Form.Group className="mt-5">
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" onClick={SubmitForm}>
               Log in
             </Button>
           </Form.Group>
