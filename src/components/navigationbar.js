@@ -38,8 +38,8 @@ const Navigationbar = () => {
               Profile
             </Nav.Link>
           </Nav.Item>
+          {loginLogoutControls}
         </Nav>
-        {loginLogoutControls}
       </Nav>
     </Navbar>
   );
