@@ -1,23 +1,34 @@
 import React, { useState, useEffect } from "react";
-const axios = require("axios");
+import { fetchCoins } from "../store/homepage/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { getCoinData } from "../store/homepage/selector";
+import CoinComponent from "../components/coin";
+
 const Homepage = () => {
-  async function GetData() {
-    try {
-      const data = await axios.get(
-        `https://api.coingecko.com/api/v3/search/trending`
-      );
-      console.log("data I receive from the API", data);
-    } catch (e) {
-      console.log("ERROR MESSAGE", e.message);
-    }
-  }
+  const dispatch = useDispatch();
+  const allcoins = useSelector(getCoinData);
   useEffect(() => {
-    GetData();
-  }, []);
+    dispatch(fetchCoins());
+  }, [dispatch]);
   return (
     <>
       <div>
         <h1>Welcome to the homepage</h1>
+        <div>
+          <label>Sort by </label>
+        </div>
+        {allcoins.map((coins) => {
+          return (
+            <div key={coins.id}>
+              <CoinComponent
+                name={coins.name}
+                imageUrl={coins.image}
+                currentprice={coins.current_price}
+                alt={coins.symbol}
+              />
+            </div>
+          );
+        })}
       </div>
     </>
   );
