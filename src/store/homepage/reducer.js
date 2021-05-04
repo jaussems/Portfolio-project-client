@@ -7,7 +7,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_COINS:
-      return { ...initialState, ...action.payload };
+      return { ...initialState, coins: action.payload };
 
     default:
       return state;
