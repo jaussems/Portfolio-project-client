@@ -4,6 +4,7 @@ const initialState = {
   token: localStorage.getItem("token"),
   name: null,
   email: null,
+  userCoins: [],
 };
 
 export default (state = initialState, action) => {
@@ -21,6 +22,9 @@ export default (state = initialState, action) => {
 
     case "FETCH_USERS_SUCCES":
       return { ...state, users: action.payload };
+
+    case "FETCH_USERS_COINS_SUCCES":
+      return { ...state, userCoins: action.payload };
 
     default:
       return state;
