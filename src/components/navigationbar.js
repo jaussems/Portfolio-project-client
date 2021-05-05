@@ -37,6 +37,7 @@ const Navigationbar = () => {
               alignItems: "center",
               display: "flex",
               justifyContent: "space-around",
+              borderRadius: "999px",
             }}
             fill
           >

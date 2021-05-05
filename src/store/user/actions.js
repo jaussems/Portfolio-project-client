@@ -22,6 +22,11 @@ const usersGet = (users) => ({
   payload: users,
 });
 
+const usersfavoritesGet = (favoritecoins) => ({
+  type: "FETCH_USERS_COINS_SUCCES",
+  payload: favoritecoins,
+});
+
 export const logOut = () => ({ type: LOG_OUT });
 
 export const signUp = (firstName, email, password) => {
@@ -106,6 +111,23 @@ export const getAllUsers = () => {
       dispatch(usersGet(response.data));
     } catch (e) {
       console.log(e.message);
+    }
+  };
+};
+
+export const GetUserFavorites = (userid) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await axios.get(`${apiUrl}/user/favorites/${userid}`);
+      console.log(
+        `RESPONSE I GOT`,
+        response.data.map((foundcoin) => foundcoin.coin)
+      );
+
+      const coinsfetched = response.data.map((foundcoin) => foundcoin.coin);
+      dispatch(usersfavoritesGet(coinsfetched));
+    } catch (e) {
+      console.log("ERROR MESSAGE", e.message);
     }
   };
 };
