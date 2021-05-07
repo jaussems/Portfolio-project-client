@@ -1,5 +1,21 @@
+import React, { useEffect } from "react";
+import ButtonComponent from "../components/buttoncomponent";
+
+import { AddUserFavorites, GetUserFavorites } from "../store/user/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserCoins, selectUserId } from "../store/user/selector";
 const Coin = (props) => {
-  const userLiked = false;
+  const dispatch = useDispatch();
+  const userid = useSelector(selectUserId);
+  const usersfavorites = useSelector(selectUserCoins);
+  const coinStringId = props.name.toLowerCase();
+
+  function AdduserFavorites() {
+    dispatch(
+      AddUserFavorites(userid, props.name, coinStringId, props.imageUrl)
+    );
+    //console.log(`I CLICKED 22`, coinStringId);
+  }
 
   return (
     <>
@@ -9,6 +25,7 @@ const Coin = (props) => {
           padding: "5px",
           border: "2px solid darkblue",
           display: "flex",
+          gap: "24px",
           height: "75px",
         }}
       >
@@ -20,31 +37,9 @@ const Coin = (props) => {
         <div style={{ padding: "0.5em" }}>
           <h2>Current Price : {props.currentprice} $</h2>
         </div>
-        {userLiked ? (
-          <button
-            style={{
-              width: "20px",
-              padding: "0",
-              border: "none",
-              background: "none",
-              fontSize: "50px",
-            }}
-          >
-            ★
-          </button>
-        ) : (
-          <button
-            style={{
-              width: "20px",
-              padding: "0",
-              border: "none",
-              background: "none",
-              fontSize: "50px",
-            }}
-          >
-            ☆
-          </button>
-        )}
+        <div>
+          <ButtonComponent onClick={AdduserFavorites} />
+        </div>
       </div>
     </>
   );

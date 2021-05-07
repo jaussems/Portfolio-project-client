@@ -8,6 +8,7 @@ import { getUserWithStoredToken } from "./store/user/actions";
 import ProfilePage from "./pages/profilepage";
 import Loginpage from "./pages/loginpage";
 import SignupPage from "./pages/signuppage";
+import AdminPage from "./pages/adminpage";
 import Navigationbar from "./components/navigationbar";
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ function App() {
 
       <Switch>
         <Route exact path="/" component={Homepage} />
+        <Route path="/admin" component={AdminPage} />
         <Route path="/coins/:coinId" component={SpecificCoinPage} />
         <Route path="/user/:userId" component={ProfilePage} />
         <Route path="/signup" component={SignupPage} />
