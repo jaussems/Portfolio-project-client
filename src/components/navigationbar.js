@@ -6,6 +6,7 @@ import { selectUser, selectToken } from "../store/user/selector";
 import { useDispatch, useSelector } from "react-redux";
 import Loggedin from "./LoggedIn";
 import Loggedout from "./Loggedout";
+import AdminNav from "./adminnavigation";
 import ProfileNavLink from "./ProfileNavLink";
 
 const Navigationbar = () => {
@@ -15,7 +16,7 @@ const Navigationbar = () => {
 
   const loginLogoutControls = token ? <Loggedin /> : <Loggedout />;
   const userControl = user.email ? <ProfileNavLink /> : null;
-
+  const isAdmin = user.isAdmin ? <AdminNav /> : null;
   return (
     <>
       <Navbar
@@ -45,6 +46,7 @@ const Navigationbar = () => {
               <Nav.Link href="/">Home</Nav.Link>
             </Nav.Item>
             {userControl}
+            {isAdmin}
             {loginLogoutControls}
           </Nav>
         </Navbar.Collapse>

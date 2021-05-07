@@ -13,7 +13,7 @@ const SpecificCoinPage = () => {
 
   useEffect(() => {
     dispatch(fetchCoin(coinId));
-  }, [dispatch]);
+  }, [dispatch, coinId]);
 
   return (
     <>
