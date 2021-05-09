@@ -1,8 +1,8 @@
 import Button from "react-bootstrap/Button";
 
 export default function ButtonComponent(props) {
-  const userLiked = false;
-
+  //const userLiked = false;
+  //value={userLiked ? "⭐" : "☆"}
   return (
     <>
       <Button
@@ -14,8 +14,9 @@ export default function ButtonComponent(props) {
           fontSize: "50px",
         }}
         onClick={props.onClick}
+        value={props.value}
       >
-        {userLiked ? "⭐" : "☆"}
+        {props.liked ? "⭐" : "☆"}
       </Button>
     </>
   );

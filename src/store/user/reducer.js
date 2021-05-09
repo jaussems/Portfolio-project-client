@@ -5,7 +5,6 @@ const initialState = {
   name: null,
   email: null,
   userCoins: [],
-  allUsers: [],
 };
 
 export default (state = initialState, action) => {
@@ -24,11 +23,11 @@ export default (state = initialState, action) => {
     case "FETCH_USERS_COINS_SUCCES":
       return { ...state, userCoins: action.payload };
 
+    case "DELETE_USERS_COINS_SUCCES":
+      return { ...state, userCoins: [...(state.userCoins - action.payload)] };
+
     case "ADD_USERS_COINS_SUCCES":
       return { ...state, userCoins: [...state.userCoins, action.payload] };
-
-    case "FETCH_USERS_SUCCES":
-      return { ...state, allUsers: action.payload };
 
     default:
       return state;
