@@ -17,11 +17,6 @@ const tokenStillValid = (userWithoutToken) => ({
   payload: userWithoutToken,
 });
 
-// const usersGet = (users) => ({
-//   type: "FETCH_USERS_SUCCES",
-//   payload: users,
-// });
-
 const usersfavoritesGet = (favoritecoins) => ({
   type: "FETCH_USERS_COINS_SUCCES",
   payload: favoritecoins,
@@ -32,9 +27,9 @@ const userFavoriteAdded = (addfavoritecoin) => ({
   payload: addfavoritecoin,
 });
 
-const fetchAllUsers = (users) => ({
-  type: "FETCH_USERS_SUCCES",
-  payload: users,
+const userFavoriteDeleted = (deletefavoritecoin) => ({
+  type: "DELETE_USERS_COINS_SUCCES",
+  payload: deletefavoritecoin,
 });
 
 export const logOut = () => ({ type: LOG_OUT });
@@ -108,23 +103,6 @@ export const getUserWithStoredToken = () => {
   };
 };
 
-// export const getAllUsers = () => {
-//   return async (dispatch, getState) => {
-//     // get token from the state
-//     const token = selectToken(getState());
-
-//     // if we have no token, stop
-//     if (token === null) return;
-
-//     try {
-//       const response = await axios.get(`${apiUrl}/admin/users`);
-//       dispatch(usersGet(response.data));
-//     } catch (e) {
-//       console.log(e.message);
-//     }
-//   };
-// };
-
 export const GetUserFavorites = (userid) => {
   return async (dispatch, getState) => {
     try {
@@ -148,6 +126,8 @@ export const AddUserFavorites = (userid, name, stringCoinId, imageUrl) => {
       const response = await axios.post(
         `${apiUrl}/user/favorites/${userid}/coin/?name=${name}&stringCoinId=${stringCoinId}&imageUrl=${imageUrl}`
       );
+
+      // `/user/favorites/1/coin/?name=Bitcoin&stringCoinId=bitcoin&imageUrl=2232323.png`
       dispatch(userFavoriteAdded(response.data));
     } catch (e) {
       console.log("ERROR MESSAGE", e.message);
@@ -155,12 +135,16 @@ export const AddUserFavorites = (userid, name, stringCoinId, imageUrl) => {
   };
 };
 
-export const GetAllUsers = () => {
+export const DeleteUserFavorites = (userid, stringCoinId) => {
   return async (dispatch, getState) => {
     try {
-      const response = await axios.get(`${apiUrl}/admin/user`);
-      console.log(`TESTING RESPONSE`, response);
-      dispatch(fetchAllUsers(response.data));
+      const response = await axios.delete(
+        `${apiUrl}/user/favorites/${userid}/coin/?&stringCoinId=${stringCoinId}`
+      );
+
+      // `/user/favorites/1/coin/?name=Bitcoin&stringCoinId=bitcoin&imageUrl=2232323.png`
+
+      dispatch(userFavoriteDeleted(response.data));
     } catch (e) {
       console.log("ERROR MESSAGE", e.message);
     }

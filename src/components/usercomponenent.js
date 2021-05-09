@@ -3,6 +3,7 @@ const userComponent = (props) => {
     <div>
       <h1>{props.firstName}</h1>
       <h2>{props.email}</h2>
+      <p>{props.blocked}</p>
     </div>
   );
 };
