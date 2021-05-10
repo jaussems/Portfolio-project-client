@@ -8,6 +8,11 @@ const fetchAllUsers = (users) => ({
   payload: users,
 });
 
+const BlockUser = (blockuser) => ({
+  type: FETCH_USERS_SUCCES,
+  payload: blockuser,
+});
+
 export const GetAllUsers = () => {
   return async (dispatch, getState) => {
     try {
@@ -19,3 +24,29 @@ export const GetAllUsers = () => {
     }
   };
 };
+
+export const toggleblockUser = (userId) => {
+  return async (dispatch, getState) => {
+    try {
+      const response = await axios.put(`${apiUrl}/admin/user/${userId}`);
+      console.log(`TESTING USER UPDATED`, response);
+      dispatch(BlockUser(response.data));
+    } catch (e) {
+      console.log("ERROR MESSAGE", e.message);
+    }
+  };
+};
+
+// export const unblockUser = (userId, blocked) => {
+//     return async (dispatch, getState) => {
+//       try {
+//         const response = await axios.put(`${apiUrl}/admin/user/${userId}`, {
+//           blocked,
+//         });
+//         console.log(`TESTING USER UPDATED`, response);
+//         dispatch(fetchAllUsers(response.data));
+//       } catch (e) {
+//         console.log("ERROR MESSAGE", e.message);
+//       }
+//     };
+//   };

@@ -67,7 +67,7 @@ export const addComment = (userid, coinId, name, content) => {
         content,
       });
       console.log(` Response I got :`, response.data);
-      dispatch(CommentAdded(response.data.updatedcomment));
+      dispatch(CommentAdded(response.data.all_comments));
     } catch (e) {
       console.log("ERROR MESSAGE", e.message);
     }
@@ -81,7 +81,7 @@ export const deleteComment = (userid, coinId) => {
         `${apiUrl}/coins/${userid}/${coinId}`
       );
       console.log(` Response I got :`, response.data);
-      //dispatch(CommentDeleted(response.data));
+      dispatch(CommentDeleted(response.data.all_comments));
     } catch (e) {
       console.log("ERROR MESSAGE".e.message);
     }

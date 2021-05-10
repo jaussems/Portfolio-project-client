@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetAllUsers } from "../store/admin/action";
+import { GetAllUsers, toggleblockUser } from "../store/admin/action";
 import { fetchUsers } from "../store/admin/selector";
 import UserComponent from "../components/usercomponenent";
 import Button from "react-bootstrap/Button";
 const Adminpage = () => {
   const dispatch = useDispatch();
   const allusers = useSelector(fetchUsers);
+
   useEffect(() => {
     dispatch(GetAllUsers());
   }, [dispatch]);
@@ -22,10 +23,14 @@ const Adminpage = () => {
                 firstName={user.firstName}
                 email={user.email}
                 blocked={
-                  user.isBlocked ? (
-                    <Button>Block</Button>
+                  !user.isBlocked ? (
+                    <Button onClick={(e) => dispatch(toggleblockUser(user.id))}>
+                      Block
+                    </Button>
                   ) : (
-                    <Button>Unblock</Button>
+                    <Button onClick={(e) => dispatch(toggleblockUser(user.id))}>
+                      Unblock
+                    </Button>
                   )
                 }
               />
