@@ -24,7 +24,12 @@ export default (state = initialState, action) => {
       return { ...state, userCoins: action.payload };
 
     case "DELETE_USERS_COINS_SUCCES":
-      return { ...state, userCoins: [...(state.userCoins - action.payload)] };
+      return {
+        ...state,
+        userCoins: state.userCoins.filter(
+          (removedcoins) => removedcoins.id !== action.payload.stringCoinId
+        ),
+      };
 
     case "ADD_USERS_COINS_SUCCES":
       return { ...state, userCoins: [...state.userCoins, action.payload] };

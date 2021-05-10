@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../store/user/selector";
-import Coincomponent2 from "../components/coincomponent2";
+//import Coincomponent2 from "../components/coincomponent2";
+import CoinComponent from "../components/coin";
 import { GetUserFavorites } from "../store/user/actions";
 import { selectUserCoins } from "../store/user/selector";
 import { selectUserId } from "../store/user/selector";
@@ -28,9 +29,11 @@ const ProfilePage = () => {
           {usercoins.map((usercoins) => {
             return (
               <div key={usercoins.stringCoinId}>
-                <Coincomponent2
+                <CoinComponent
                   name={usercoins.name}
                   imageUrl={usercoins.imageUrl}
+                  coinid={usercoins.stringCoinId}
+                  isLiked={true}
                 />
               </div>
             );

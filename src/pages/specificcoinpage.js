@@ -59,7 +59,7 @@ const SpecificCoinPage = () => {
             </div>
           );
         })}
-        <div>
+        <div style={{ width: "600px" }}>
           <Coinchart />
         </div>
         <div>
@@ -78,11 +78,11 @@ const SpecificCoinPage = () => {
 
         <div>
           <h1>Comments</h1>
-          {comments.map((usercomments) => {
+          {comments.map((usercomments, index) => {
             return (
               <div>
                 <CommentComponent
-                  key={usercomments.id}
+                  key={index}
                   name={usercomments.name}
                   content={usercomments.content}
                   isUser={usercomments.userId === userid ? true : false}

@@ -128,7 +128,7 @@ export const AddUserFavorites = (userid, name, stringCoinId, imageUrl) => {
       );
 
       // `/user/favorites/1/coin/?name=Bitcoin&stringCoinId=bitcoin&imageUrl=2232323.png`
-      dispatch(userFavoriteAdded(response.data));
+      dispatch(userFavoriteAdded(response.data.coin));
     } catch (e) {
       console.log("ERROR MESSAGE", e.message);
     }
@@ -144,7 +144,7 @@ export const DeleteUserFavorites = (userid, stringCoinId) => {
 
       // `/user/favorites/1/coin/?name=Bitcoin&stringCoinId=bitcoin&imageUrl=2232323.png`
 
-      dispatch(userFavoriteDeleted(response.data));
+      dispatch(userFavoriteDeleted(response.data.deleteUserFavorite));
     } catch (e) {
       console.log("ERROR MESSAGE", e.message);
     }
