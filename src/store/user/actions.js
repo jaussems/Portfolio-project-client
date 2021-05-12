@@ -1,6 +1,13 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
 import { selectToken } from "../user/selector";
+import {
+  appLoading,
+  appDoneLoading,
+  showMessageWithTimeout,
+  setMessage,
+} from "../Message/action";
+
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const TOKEN_STILL_VALID = "TOKEN_STILL_VALID";
 export const LOG_OUT = "LOG_OUT";
@@ -36,6 +43,8 @@ export const logOut = () => ({ type: LOG_OUT });
 
 export const signUp = (firstName, email, password) => {
   return async (dispatch, getState) => {
+    dispatch(appLoading());
+
     try {
       const response = await axios.post(`${apiUrl}/signup`, {
         firstName,
@@ -44,11 +53,15 @@ export const signUp = (firstName, email, password) => {
       });
 
       dispatch(loginSuccess(response.data));
+      dispatch(showMessageWithTimeout("success", true, "account created"));
+      dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
+        dispatch(setMessage("danger", true, error.response.data.message));
       } else {
         console.log(error.message);
+        dispatch(setMessage("danger", true, error.message));
       }
     }
   };
@@ -56,6 +69,7 @@ export const signUp = (firstName, email, password) => {
 
 export const login = (email, password) => {
   return async (dispatch, getState) => {
+    dispatch(appLoading());
     try {
       const response = await axios.post(`${apiUrl}/login`, {
         email,
@@ -63,11 +77,17 @@ export const login = (email, password) => {
       });
 
       dispatch(loginSuccess(response.data));
+      dispatch(showMessageWithTimeout("success", false, "welcome back!", 1500));
+      dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
+        dispatch(setMessage("error", true, error.response.data.message));
       } else {
         console.log(error.message);
+        dispatch(
+          setMessage("error message", true, error.response.data.message)
+        );
       }
     }
   };
@@ -80,7 +100,7 @@ export const getUserWithStoredToken = () => {
 
     // if we have no token, stop
     if (token === null) return;
-
+    dispatch(appLoading());
     try {
       // if we do have a token,
       // check wether it is still valid or if it is expired
@@ -90,6 +110,7 @@ export const getUserWithStoredToken = () => {
 
       // token is still valid
       dispatch(tokenStillValid(response.data));
+      dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
         console.log(error.response.message);
@@ -99,54 +120,84 @@ export const getUserWithStoredToken = () => {
       // if we get a 4xx or 5xx response,
       // get rid of the token by logging out
       dispatch(logOut());
+      dispatch(appDoneLoading());
     }
   };
 };
 
 export const GetUserFavorites = (userid) => {
   return async (dispatch, getState) => {
+    const token = selectToken(getState());
+
     try {
-      const response = await axios.get(`${apiUrl}/user/favorites/${userid}`);
+      const response = await axios.get(`${apiUrl}/user/favorites/${userid}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(
         `RESPONSE I GOT`,
         response.data.map((foundcoin) => foundcoin.coin)
       );
 
-      const coinsfetched = response.data.map((foundcoin) => foundcoin.coin);
+      const coinsfetched = await response.data.map(
+        (foundcoin) => foundcoin.coin
+      );
       dispatch(usersfavoritesGet(coinsfetched));
     } catch (e) {
       console.log("ERROR MESSAGE", e.message);
+
+      //dispatch(setMessage("danger", true, e.message));
     }
   };
 };
 
 export const AddUserFavorites = (userid, name, stringCoinId, imageUrl) => {
   return async (dispatch, getState) => {
+    const token = selectToken(getState());
     try {
       const response = await axios.post(
-        `${apiUrl}/user/favorites/${userid}/coin/?name=${name}&stringCoinId=${stringCoinId}&imageUrl=${imageUrl}`
+        `${apiUrl}/user/favorites/${userid}/coin/?name=${name}&stringCoinId=${stringCoinId}&imageUrl=${imageUrl}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-
-      // `/user/favorites/1/coin/?name=Bitcoin&stringCoinId=bitcoin&imageUrl=2232323.png`
+      console.log(`RESPONSE ACTION ADD `, response.data.coin);
       dispatch(userFavoriteAdded(response.data.coin));
+      dispatch(
+        showMessageWithTimeout("success", false, "added favorite", 1500)
+      );
     } catch (e) {
       console.log("ERROR MESSAGE", e.message);
+      dispatch(setMessage("danger", true, e.message));
     }
   };
 };
 
 export const DeleteUserFavorites = (userid, stringCoinId) => {
   return async (dispatch, getState) => {
+    const token = selectToken(getState());
+
     try {
       const response = await axios.delete(
-        `${apiUrl}/user/favorites/${userid}/coin/?&stringCoinId=${stringCoinId}`
+        `${apiUrl}/user/favorites/${userid}/coin/?&stringCoinId=${stringCoinId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
 
-      // `/user/favorites/1/coin/?name=Bitcoin&stringCoinId=bitcoin&imageUrl=2232323.png`
-
-      dispatch(userFavoriteDeleted(response.data.deleteUserFavorite));
+      dispatch(userFavoriteDeleted(response.data.deletedcoin));
+      dispatch(
+        showMessageWithTimeout("success", false, "deleted favorite", 1500)
+      );
     } catch (e) {
       console.log("ERROR MESSAGE", e.message);
+      dispatch(setMessage("danger", true, e.message));
     }
   };
 };

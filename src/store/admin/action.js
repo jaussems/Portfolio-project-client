@@ -1,6 +1,13 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
 import { selectToken } from "../user/selector";
+import {
+  appLoading,
+  appDoneLoading,
+  showMessageWithTimeout,
+  setMessage,
+} from "../Message/action";
+
 export const FETCH_USERS_SUCCES = "FETCH_USERS_SUCCES";
 export const BLOCK_USER = "BLOCK_USER";
 const fetchAllUsers = (users) => ({
@@ -15,10 +22,21 @@ const BlockUser = (blockuser) => ({
 
 export const GetAllUsers = () => {
   return async (dispatch, getState) => {
+    dispatch(appLoading());
+    const token = selectToken(getState());
     try {
-      const response = await axios.get(`${apiUrl}/admin/user`);
+      const response = await axios.get(
+        `${apiUrl}/admin/user`,
+
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log(`TESTING RESPONSE`, response);
       dispatch(fetchAllUsers(response.data));
+      dispatch(appDoneLoading());
     } catch (e) {
       console.log("ERROR MESSAGE", e.message);
     }
@@ -27,26 +45,22 @@ export const GetAllUsers = () => {
 
 export const toggleblockUser = (userId) => {
   return async (dispatch, getState) => {
+    const token = selectToken(getState());
     try {
-      const response = await axios.put(`${apiUrl}/admin/user/${userId}`);
-      console.log(`TESTING USER UPDATED`, response);
+      const response = await axios.put(
+        `${apiUrl}/admin/user/${userId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       dispatch(BlockUser(response.data));
+      dispatch(showMessageWithTimeout("success", false, "user Blocked", 1500));
     } catch (e) {
       console.log("ERROR MESSAGE", e.message);
+      dispatch(setMessage("error message", true, e.message));
     }
   };
 };
-
-// export const unblockUser = (userId, blocked) => {
-//     return async (dispatch, getState) => {
-//       try {
-//         const response = await axios.put(`${apiUrl}/admin/user/${userId}`, {
-//           blocked,
-//         });
-//         console.log(`TESTING USER UPDATED`, response);
-//         dispatch(fetchAllUsers(response.data));
-//       } catch (e) {
-//         console.log("ERROR MESSAGE", e.message);
-//       }
-//     };
-//   };

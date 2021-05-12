@@ -24,10 +24,24 @@ const SpecificCoinPage = () => {
   const token = useSelector(selectToken);
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
-
+  console.log(coinId);
+  const coin_data = specificcoin.map((coin) => ({
+    name: coin.name,
+    image: coin.image.large,
+  }));
+  //console.log(coin_data[0].name);
   function Comment(event) {
     event.preventDefault();
-    dispatch(addComment(userid, coinId, name, content));
+    dispatch(
+      addComment(
+        userid,
+        coinId,
+        name,
+        content,
+        coin_data[0].name,
+        coin_data[0].image
+      )
+    );
 
     setName("");
     setContent("");
@@ -60,7 +74,7 @@ const SpecificCoinPage = () => {
           );
         })}
         <div style={{ width: "600px" }}>
-          <Coinchart />
+          <Coinchart coinid={coinId} />
         </div>
         <div>
           {token ? (
