@@ -7,6 +7,13 @@ const initialState = {
   userCoins: [],
 };
 
+// ...state,
+// userCoins: [
+//   state.userCoins.filter(
+//     (removedcoins) => removedcoins.id !== action.payload.stringCoinId
+//   ),
+// ],
+
 export default (state = initialState, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
@@ -26,9 +33,11 @@ export default (state = initialState, action) => {
     case "DELETE_USERS_COINS_SUCCES":
       return {
         ...state,
-        userCoins: state.userCoins.filter(
-          (removedcoins) => removedcoins.id !== action.payload.stringCoinId
-        ),
+        userCoins: [
+          state.userCoins.filter(
+            (removedcoins) => removedcoins.id !== action.payload.stringCoinId
+          ),
+        ],
       };
 
     case "ADD_USERS_COINS_SUCCES":

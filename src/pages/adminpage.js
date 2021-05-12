@@ -4,12 +4,19 @@ import { GetAllUsers, toggleblockUser } from "../store/admin/action";
 import { fetchUsers } from "../store/admin/selector";
 import UserComponent from "../components/usercomponenent";
 import Button from "react-bootstrap/Button";
+import { useHistory } from "react-router-dom";
+import { selectUser } from "../store/user/selector";
 const Adminpage = () => {
   const dispatch = useDispatch();
   const allusers = useSelector(fetchUsers);
+  const history = useHistory();
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     dispatch(GetAllUsers());
+    if (!user.token) {
+      history.push("/login");
+    }
   }, [dispatch]);
 
   return (

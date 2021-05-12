@@ -1,25 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { fetchCoins } from "../store/homepage/actions";
 import { useDispatch, useSelector } from "react-redux";
-import { getCoinData } from "../store/homepage/selector";
+
+import {
+  getCoinData,
+  getCoinDataByName,
+  getCoinDataByLowestPrice,
+  getCoinDataByHighestPrice,
+} from "../store/homepage/selector";
 import CoinComponent from "../components/coin";
-import { GetUserFavorites, DeleteUserFavorites } from "../store/user/actions";
-import { selectUserCoins, selectUserId } from "../store/user/selector";
+import { GetUserFavorites } from "../store/user/actions";
+import {
+  selectUserCoins,
+  selectUserId,
+  selectToken,
+} from "../store/user/selector";
 
 const Homepage = () => {
   const dispatch = useDispatch();
+  const token = useSelector(selectToken);
   const allcoins = useSelector(getCoinData);
+
   const userid = useSelector(selectUserId);
+  const [sortcoins, setSortCoins] = useState(0);
   const allusercoins = useSelector(selectUserCoins);
 
-  //console.log(`THE USERS COINS`, allusercoins);
+  //makes an array with the users stringCoinId's to check the button with
   const allstringcoinid = allusercoins.map(
     (favoritecoin) => favoritecoin.stringCoinId
   );
 
   useEffect(() => {
     dispatch(fetchCoins());
-    dispatch(GetUserFavorites(userid));
+    if (token) {
+      dispatch(GetUserFavorites(userid));
+    }
   }, [dispatch, userid]);
 
   return (
@@ -28,6 +43,26 @@ const Homepage = () => {
         <h1>Welcome to the homepage</h1>
         <div>
           <label>Sort by </label>
+          <select
+            value={sortcoins}
+            onChange={(e) => setSortCoins(parseInt(e.target.value))}
+          >
+            <option name="all" value={0}>
+              ---
+            </option>
+            <option name="name" value={1}>
+              By Name
+            </option>
+            <option name="lowest-price" value={2}>
+              By Lowest Price
+            </option>
+            <option name="highest-price" value={3}>
+              By Highest Price
+            </option>
+            <option name="popularity" value={4}>
+              By Popularity
+            </option>
+          </select>
         </div>
         {allcoins.map((coins, index) => {
           return (
