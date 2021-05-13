@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../store/user/selector";
-//import Coincomponent2 from "../components/coincomponent2";
-import CoinComponent from "../components/coin";
+
 import CoinComponentProfile from "../components/Coincomponent3";
 import { GetUserFavorites } from "../store/user/actions";
 import { selectUserCoins } from "../store/user/selector";

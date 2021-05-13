@@ -17,6 +17,7 @@ const Commentform = (props) => {
             <Form.Control
               type="name"
               placeholder="Enter name"
+              value={props.valueName}
               onChange={props.onChangeName}
             />
           </Form.Group>
@@ -28,6 +29,7 @@ const Commentform = (props) => {
             <Form.Control
               type="content"
               placeholder="Content"
+              value={props.valueContent}
               onChange={props.onChangeContent}
             />
           </Form.Group>

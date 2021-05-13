@@ -4,7 +4,7 @@ const initialState = {
   allUsers: [],
 };
 
-export default (state = initialState, action) => {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_USERS_SUCCES:
       return { ...state, allUsers: action.payload };
@@ -14,4 +14,4 @@ export default (state = initialState, action) => {
     default:
       return state;
   }
-};
+}

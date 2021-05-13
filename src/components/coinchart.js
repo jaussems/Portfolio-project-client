@@ -38,8 +38,8 @@ const Coinchart = (props) => {
   }
 
   return (
-    <ResponsiveContainer width={600} height={300}>
-      <AreaChart width={800} height={300} data={apidata}>
+    <ResponsiveContainer width="95%" height={300}>
+      <AreaChart data={apidata}>
         <Area dataKey="price" />
         <XAxis dataKey="date" interval="preserveStart" />
         <YAxis dataKey="price" />

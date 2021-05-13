@@ -6,6 +6,7 @@ import CommentComponent from "../components/comment";
 import Coinchart from "../components/coinchart";
 import Commentform from "../components/commentform";
 import { selectUserId } from "../store/user/selector";
+import useInterval from "../hooks/useInterval";
 import {
   fetchCoin,
   fetchComments,
@@ -24,7 +25,7 @@ const SpecificCoinPage = () => {
   const token = useSelector(selectToken);
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
-  console.log(coinId);
+
   const coin_data = specificcoin.map((coin) => ({
     name: coin.name,
     image: coin.image.large,
@@ -32,6 +33,9 @@ const SpecificCoinPage = () => {
   //console.log(coin_data[0].name);
   function Comment(event) {
     event.preventDefault();
+
+    setName("");
+    setContent("");
     dispatch(
       addComment(
         userid,
@@ -42,15 +46,20 @@ const SpecificCoinPage = () => {
         coin_data[0].image
       )
     );
-
-    setName("");
-    setContent("");
   }
 
   function DeleteComment(event) {
     event.preventDefault();
     dispatch(deleteComment(userid, coinId));
   }
+
+  useInterval(
+    () => {
+      dispatch(fetchCoin(coinId));
+    },
+
+    20000
+  );
 
   useEffect(() => {
     dispatch(fetchCoin(coinId));
@@ -60,28 +69,114 @@ const SpecificCoinPage = () => {
   return (
     <>
       <div>
-        <h1>Welcome to the Specific Coin Page!</h1>
-        {specificcoin.map((coins) => {
-          return (
-            <div key={coins.id}>
-              <CoinComponent2
-                name={coins.name}
-                imageUrl={coins.image.large}
-                currentprice={coins.market_data.current_price.usd}
-                alt={coins.symbol}
-              />
-            </div>
-          );
-        })}
-        <div style={{ width: "600px" }}>
-          <Coinchart coinid={coinId} />
+        <h1>Welcome to the {coinId} Page!</h1>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {specificcoin.map((coins) => {
+            return (
+              <div key={coins.id}>
+                <CoinComponent2
+                  name={coins.name}
+                  imageUrl={coins.image.large}
+                  currentprice={coins.market_data.current_price.usd}
+                  alt={coins.symbol}
+                />
+              </div>
+            );
+          })}
+          <div style={{ width: "600px" }}>
+            <Coinchart coinid={coinId} />
+          </div>
         </div>
+        <div
+          style={{
+            backgroundColor: "white",
+            opacity: "55%",
+            borderRadius: "90px",
+            display: "flex",
+            justifyContent: "center",
+            marginLeft: "auto",
+            marginRight: "auto",
+            height: "10em",
+            padding: "10px",
+            width: "35em",
+          }}
+        >
+          <table className="table">
+            <thead>
+              <tr>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            {specificcoin.map((coindetails, index) => {
+              return (
+                <tbody key={index}>
+                  <tr>
+                    <th scope="row">Rank:</th>
+                    <td>{coindetails.market_cap_rank}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Price:</th>
+                    <td>{coindetails.market_data.current_price.usd} $</td>
+                  </tr>
+
+                  <tr>
+                    <th scope="row">Circulating Supply:</th>
+                    <td>{coindetails.market_data.circulating_supply}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Price Change:</th>
+                    <td>
+                      Price Change 24h:{" "}
+                      {coindetails.market_data.price_change_percentage_24h >
+                      0 ? (
+                        <span style={{ color: "green" }}>
+                          {coindetails.price_change_percentage_24h.toFixed(2) +
+                            "↑ "}{" "}
+                        </span>
+                      ) : (
+                        <span style={{ color: "red" }}>
+                          {coindetails.market_data.price_change_percentage_24h.toFixed(
+                            2
+                          ) + "↓"}
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Marketcap:</th>
+                    <td>{coindetails.market_data.market_cap.usd}</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Price Change:</th>
+                    <td>{coindetails.market_data.price_change_24h} $</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Total Volume:</th>
+                    <td>{coindetails.market_data.total_volume.usd}</td>
+                  </tr>
+                </tbody>
+              );
+            })}
+          </table>
+        </div>
+
         <div>
           {token ? (
             <Commentform
+              valueName={name}
               onChangeName={(e) => {
                 setName(e.target.value);
               }}
+              valueContent={content}
               onChangeContent={(e) => {
                 setContent(e.target.value);
               }}

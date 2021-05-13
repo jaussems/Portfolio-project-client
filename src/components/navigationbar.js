@@ -1,16 +1,15 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import { selectUser, selectToken } from "../store/user/selector";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Loggedin from "./LoggedIn";
 import Loggedout from "./Loggedout";
 import AdminNav from "./adminnavigation";
 import ProfileNavLink from "./ProfileNavLink";
 
 const Navigationbar = () => {
-  const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const token = useSelector(selectToken);
 
@@ -22,28 +21,42 @@ const Navigationbar = () => {
       <Navbar
         bg="primary"
         variant="dark"
+        expand="lg"
         style={{
           padding: "5px",
           width: "100%",
+          color: "black",
+          opacity: "65%",
         }}
-        fill
       >
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav
             style={{
               width: "100%",
               listStyleType: "none",
-              backgroundColor: "#67C8FF	 ",
+              backgroundColor: "darkblue",
+              fontSize: "25px",
+              color: "black",
               height: "50px",
               alignItems: "center",
               display: "flex",
               justifyContent: "space-around",
               borderRadius: "999px",
             }}
-            fill
           >
             <Nav.Item as="li">
-              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link
+                href="/"
+                style={{
+                  transition: "all 0.2s",
+
+                  "&:hover": {
+                    background: "white",
+                  },
+                }}
+              >
+                Home
+              </Nav.Link>
             </Nav.Item>
             {userControl}
             {isAdmin}

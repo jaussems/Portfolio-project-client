@@ -10,7 +10,7 @@ const initialState = {
   comments: [],
 };
 
-export default (state = initialState, action) => {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
     case FETCH_SINGLE_COIN:
       return { ...state, singlecoin: [action.payload] };
@@ -24,4 +24,4 @@ export default (state = initialState, action) => {
     default:
       return state;
   }
-};
+}

@@ -14,7 +14,7 @@ const initialState = {
 //   ),
 // ],
 
-export default (state = initialState, action) => {
+export default function reducer(state = initialState, action) {
   switch (action.type) {
     case LOGIN_SUCCESS:
       localStorage.setItem("token", action.payload.token);
@@ -30,15 +30,15 @@ export default (state = initialState, action) => {
     case "FETCH_USERS_COINS_SUCCES":
       return { ...state, userCoins: action.payload };
 
-    case "DELETE_USERS_COINS_SUCCES":
+    case "DELETE_USERS_COINS_SUCCES": {
+      const newUserCoins = state.userCoins.filter(
+        (allcoins) => allcoins.id === action.payload.stringCoinId
+      );
       return {
         ...state,
-        userCoins: [
-          state.userCoins.filter(
-            (removedcoins) => removedcoins.id !== action.payload.stringCoinId
-          ),
-        ],
+        userCoins: newUserCoins,
       };
+    }
 
     case "ADD_USERS_COINS_SUCCES":
       return { ...state, userCoins: [...state.userCoins, action.payload] };
@@ -46,4 +46,10 @@ export default (state = initialState, action) => {
     default:
       return state;
   }
-};
+}
+
+// userCoins: [
+//   ...state.userCoins.filter(
+//     (removedcoins) => removedcoins.id !== action.payload.stringCoinId
+//   ),
+// ],

@@ -1,24 +1,21 @@
-import { Link } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-
 const Coincomponent2 = (props) => {
   return (
     <>
+      <div>
+        <h1>{props.name}</h1>
+      </div>
       <div
         style={{
-          backgroundColor: "#0EBFE9",
           padding: "5px",
-          border: "2px solid darkblue",
-          display: "flex",
+          margin: "2em",
 
+          display: "flex",
+          justifySelf: "self-start",
           height: "50%",
-          width: "50%",
+          width: "90%",
         }}
       >
         <img src={props.imageUrl} alt={props.alt} />
-        <div>
-          <h1>{props.name}</h1>
-        </div>
       </div>
     </>
   );
