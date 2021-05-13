@@ -13,9 +13,10 @@ export default function Message() {
   return (
     <Alert
       style={{
-        backgroundColor: "cyan",
+        backgroundColor: "green",
         fontSize: "20px",
         width: "400px",
+        opacity: "55%",
         marginLeft: "auto",
         marginRight: "auto",
       }}

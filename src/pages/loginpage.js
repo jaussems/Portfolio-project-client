@@ -4,7 +4,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
-import { Col } from "react-bootstrap";
+
 import { login } from "../store/user/actions";
 import { selectToken } from "../store/user/selector";
 
@@ -32,7 +32,7 @@ const LoginInPage = () => {
   }
 
   return (
-    <Container>
+    <Container style={{ height: "100vh" }}>
       <Form>
         <Form.Label>
           {" "}

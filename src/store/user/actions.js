@@ -1,6 +1,6 @@
 import { apiUrl } from "../../config/constants";
 import axios from "axios";
-import { selectToken } from "../user/selector";
+import { selectToken, selectUser } from "../user/selector";
 import {
   appLoading,
   appDoneLoading,
@@ -128,6 +128,7 @@ export const getUserWithStoredToken = () => {
 export const GetUserFavorites = (userid) => {
   return async (dispatch, getState) => {
     const token = selectToken(getState());
+    const user = selectUser(getState());
 
     try {
       const response = await axios.get(`${apiUrl}/user/favorites/${userid}`, {
@@ -135,10 +136,6 @@ export const GetUserFavorites = (userid) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(
-        `RESPONSE I GOT`,
-        response.data.map((foundcoin) => foundcoin.coin)
-      );
 
       const coinsfetched = await response.data.map(
         (foundcoin) => foundcoin.coin
@@ -146,8 +143,9 @@ export const GetUserFavorites = (userid) => {
       dispatch(usersfavoritesGet(coinsfetched));
     } catch (e) {
       console.log("ERROR MESSAGE", e.message);
-
-      //dispatch(setMessage("danger", true, e.message));
+      if (!token && !user) {
+        dispatch(setMessage("danger", true, e.message));
+      }
     }
   };
 };
@@ -165,7 +163,7 @@ export const AddUserFavorites = (userid, name, stringCoinId, imageUrl) => {
           },
         }
       );
-      console.log(`RESPONSE ACTION ADD `, response.data.coin);
+
       dispatch(userFavoriteAdded(response.data.coin));
       dispatch(
         showMessageWithTimeout("success", false, "added favorite", 1500)
@@ -192,6 +190,7 @@ export const DeleteUserFavorites = (userid, stringCoinId) => {
       );
 
       dispatch(userFavoriteDeleted(response.data.deletedcoin));
+
       dispatch(
         showMessageWithTimeout("success", false, "deleted favorite", 1500)
       );

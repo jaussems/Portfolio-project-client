@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import ButtonComponent from "../components/buttoncomponent";
 import { Link } from "react-router-dom";
 import { AddUserFavorites, DeleteUserFavorites } from "../store/user/actions";
+
 import { selectUserCoins } from "../store/user/selector";
+
 import { useDispatch, useSelector } from "react-redux";
 import Button from "react-bootstrap/Button";
 
 import { selectUserId } from "../store/user/selector";
+
 const Coin = (props) => {
   const dispatch = useDispatch();
   const userid = useSelector(selectUserId);
@@ -26,45 +29,63 @@ const Coin = (props) => {
 
   return (
     <>
-      <div
+      <tr
         style={{
-          backgroundColor: "lightblue",
-          padding: "5px",
           border: "2px solid darkblue",
-          display: "flex",
-          flex: "0 0 25em",
-          gap: "34px",
-          height: "75px",
-          width: "100%",
-          flexDirection: "row",
-          justifyContent: "space-evenly",
+          backgroundColor: props.randomcolor,
         }}
       >
-        <p>{props.number}</p>
-        <img src={props.imageUrl} alt={props.alt} />
-        <div>
+        <th scope="row">{props.number}</th>
+        <td>
+          <img
+            src={props.imageUrl}
+            alt={props.alt}
+            style={{ height: "75px", width: "75px" }}
+          />
+        </td>
+        <td
+          style={{
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overFlow: "hidden",
+            width: "10%",
+            textAlign: "left",
+          }}
+        >
           <h1>{props.name}</h1>
-        </div>
+        </td>
 
-        <div style={{ padding: "0.5em" }}>
+        <td
+          style={{
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            overFlow: "hidden",
+            width: "10%",
+          }}
+        >
+          <h1 style={{ fontSize: "17px" }}>
+            last 24 hours: {props.percetange}%
+          </h1>
           <h2>Current Price : {props.currentprice} $</h2>
-        </div>
-        <div>
+        </td>
+        <td>
           <ButtonComponent liked={props.isLiked} onClick={AdduserFavorites} />
-        </div>
-        <div>
+        </td>
+        <td>
           <Link to={`/coins/${props.coinid}`}>
             <Button
               style={{
-                backgroundColor: "blue",
+                backgroundColor: "orange",
+                alignText: "center",
                 justifyContent: "flex-end",
+                width: "4em",
               }}
             >
               See Details
             </Button>
           </Link>
-        </div>
-      </div>
+        </td>
+      </tr>
     </>
   );
 };

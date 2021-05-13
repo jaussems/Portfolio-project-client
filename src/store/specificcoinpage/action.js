@@ -11,7 +11,7 @@ const axios = require("axios");
 export const FETCH_SINGLE_COIN = "FETCH_SINGLE_COIN";
 export const FETCH_COMMENTS_COIN = "FETCH_COMMENTS_COIN";
 export const ADD_COMMENT = "ADD_COMMENT";
-const header = {};
+
 export const DELETE_COMMENT = "DELETE_COMMENT";
 export const FetchedSpecificCoin = (fetchedCoin) => {
   return {
@@ -104,9 +104,15 @@ export const addComment = (
 
 export const deleteComment = (userid, coinId) => {
   return async (dispatch, getState) => {
+    const token = selectToken(getState());
     try {
       const response = await axios.delete(
-        `${apiUrl}/coins/${userid}/${coinId}`
+        `${apiUrl}/coins/${userid}/${coinId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       console.log(` Response I got :`, response.data);
       dispatch(CommentDeleted(response.data.all_comments));

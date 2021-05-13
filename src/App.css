@@ -1,5 +1,18 @@
 .App {
   text-align: center;
+  font-family: "Trocchi";
+  color: rgb(0, 0, 0);
+  background: linear-gradient(
+    -45deg,
+    #ee7752 15%,
+    #c03f18 15%,
+    #e73c7e 15%,
+    #23a6d5 55%,
+    #0205c586 25%
+  );
+  overflow-y: auto;
+  height: 100vh;
+  background-attachment: fixed;
 }
 
 .App-logo {
