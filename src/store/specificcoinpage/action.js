@@ -13,6 +13,7 @@ export const FETCH_COMMENTS_COIN = "FETCH_COMMENTS_COIN";
 export const ADD_COMMENT = "ADD_COMMENT";
 
 export const DELETE_COMMENT = "DELETE_COMMENT";
+
 export const FetchedSpecificCoin = (fetchedCoin) => {
   return {
     type: FETCH_SINGLE_COIN,
@@ -48,7 +49,7 @@ export const fetchCoin = (coinId) => {
       const response =
         await axios.get(`https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&market_data=true
         `);
-
+      console.log(`RESPONSE`, response);
       dispatch(FetchedSpecificCoin(response.data));
       dispatch(appDoneLoading());
     } catch (e) {

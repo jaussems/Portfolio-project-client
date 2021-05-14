@@ -2,12 +2,24 @@ import Button from "react-bootstrap/Button";
 
 const Comment = (props) => {
   return (
-    <div style={{ backgroundColor: "blueviolet", border: "2px solid green" }}>
+    <div
+      style={{
+        backgroundColor: "white",
+        opacity: "55%",
+        width: "25%",
+        borderRadius: "58px",
+        marginLeft: "auto",
+        marginRight: "auto",
+      }}
+    >
       <p>{props.name}</p>
       <p>{props.content}</p>
       <div>
         {props.isUser ? (
-          <Button onClick={props.isClicked} style={{ backgroundColor: "red" }}>
+          <Button
+            onClick={props.isClicked}
+            style={{ backgroundColor: "red", borderRadius: "58px" }}
+          >
             {" "}
             DELETE COMMENT{" "}
           </Button>

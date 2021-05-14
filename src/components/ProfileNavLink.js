@@ -9,7 +9,11 @@ export default function ProfileNavLink() {
   return (
     <>
       <Nav.Item as="li">
-        <Nav.Link eventKey="Coins" href={`/user/${user.id}`}>
+        <Nav.Link
+          eventKey="Coins"
+          href={`/user/${user.id}`}
+          style={{ color: "white" }}
+        >
           Your profile
         </Nav.Link>
       </Nav.Item>

@@ -25,7 +25,7 @@ const SpecificCoinPage = () => {
   const token = useSelector(selectToken);
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
-
+  console.log(specificcoin);
   const coin_data = specificcoin.map((coin) => ({
     name: coin.name,
     image: coin.image.large,
@@ -62,14 +62,19 @@ const SpecificCoinPage = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchCoin(coinId));
+    if (coinId) {
+      dispatch(fetchCoin(coinId));
+    }
     dispatch(fetchComments(coinId));
   }, [dispatch, coinId]);
 
   return (
     <>
       <div>
-        <h1>Welcome to the {coinId} Page!</h1>
+        <h1>
+          Welcome to the {coinId.charAt(0).toUpperCase() + coinId.slice(1)}{" "}
+          Page!
+        </h1>
         <div
           style={{
             display: "flex",
@@ -77,27 +82,26 @@ const SpecificCoinPage = () => {
             justifyContent: "center",
           }}
         >
-          {specificcoin.map((coins) => {
-            return (
-              <div key={coins.id}>
-                <CoinComponent2
-                  name={coins.name}
-                  imageUrl={coins.image.large}
-                  currentprice={coins.market_data.current_price.usd}
-                  alt={coins.symbol}
-                />
-              </div>
-            );
-          })}
+          {specificcoin
+            ? specificcoin.map((coins) => {
+                return (
+                  <div key={coins.id}>
+                    <CoinComponent2
+                      name={coins.name}
+                      imageUrl={coins.image.large}
+                      currentprice={coins.market_data.current_price.usd}
+                      alt={coins.symbol}
+                    />
+                  </div>
+                );
+              })
+            : null}
           <div style={{ width: "600px" }}>
             <Coinchart coinid={coinId} />
           </div>
         </div>
         <div
           style={{
-            backgroundColor: "white",
-            opacity: "55%",
-            borderRadius: "90px",
             display: "flex",
             justifyContent: "center",
             marginLeft: "auto",
@@ -116,56 +120,58 @@ const SpecificCoinPage = () => {
                 <th scope="col"></th>
               </tr>
             </thead>
-            {specificcoin.map((coindetails, index) => {
-              return (
-                <tbody key={index}>
-                  <tr>
-                    <th scope="row">Rank:</th>
-                    <td>{coindetails.market_cap_rank}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Price:</th>
-                    <td>{coindetails.market_data.current_price.usd} $</td>
-                  </tr>
+            {specificcoin &&
+              specificcoin.map((coindetails, index) => {
+                return (
+                  <tbody key={index}>
+                    <tr>
+                      <th scope="row">Rank:</th>
+                      <td>{coindetails.market_cap_rank}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Price:</th>
+                      <td>{coindetails.market_data.current_price.usd} $</td>
+                    </tr>
 
-                  <tr>
-                    <th scope="row">Circulating Supply:</th>
-                    <td>{coindetails.market_data.circulating_supply}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Price Change:</th>
-                    <td>
-                      Price Change 24h:{" "}
-                      {coindetails.market_data.price_change_percentage_24h >
-                      0 ? (
-                        <span style={{ color: "green" }}>
-                          {coindetails.price_change_percentage_24h.toFixed(2) +
-                            "↑ "}{" "}
-                        </span>
-                      ) : (
-                        <span style={{ color: "red" }}>
-                          {coindetails.market_data.price_change_percentage_24h.toFixed(
-                            2
-                          ) + "↓"}
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Marketcap:</th>
-                    <td>{coindetails.market_data.market_cap.usd}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Price Change:</th>
-                    <td>{coindetails.market_data.price_change_24h} $</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Total Volume:</th>
-                    <td>{coindetails.market_data.total_volume.usd}</td>
-                  </tr>
-                </tbody>
-              );
-            })}
+                    <tr>
+                      <th scope="row">Circulating Supply:</th>
+                      <td>{coindetails.market_data.circulating_supply}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Price Change:</th>
+                      <td>
+                        {" "}
+                        {coindetails.market_data
+                          .market_cap_change_percentage_24h > 0 ? (
+                          <span style={{ color: "green" }}>
+                            {coindetails.market_data.market_cap_change_percentage_24h.toFixed(
+                              2
+                            ) + "↑ "}{" "}
+                          </span>
+                        ) : (
+                          <span style={{ color: "red" }}>
+                            {coindetails.market_data.market_cap_change_percentage_24h.toFixed(
+                              2
+                            ) + "↓"}
+                          </span>
+                        )}
+                      </td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Marketcap:</th>
+                      <td>{coindetails.market_data.market_cap.usd}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Price Change:</th>
+                      <td>{coindetails.market_data.price_change_24h} $</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Total Volume:</th>
+                      <td>{coindetails.market_data.total_volume.usd}</td>
+                    </tr>
+                  </tbody>
+                );
+              })}
           </table>
         </div>
 

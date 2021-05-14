@@ -24,24 +24,21 @@ const Navigationbar = () => {
         expand="lg"
         style={{
           padding: "5px",
+          backgroundColor: "#111",
           width: "100%",
-          color: "black",
-          opacity: "65%",
+          color: "white",
+          fontSize: "25px",
+          justifyContent: "space-around",
+          listStyleType: "none",
         }}
       >
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav
             style={{
-              width: "100%",
-              listStyleType: "none",
-              backgroundColor: "darkblue",
-              fontSize: "25px",
-              color: "black",
-              height: "50px",
               alignItems: "center",
               display: "flex",
               justifyContent: "space-around",
-              borderRadius: "999px",
+              color: "white",
             }}
           >
             <Nav.Item as="li">
@@ -49,7 +46,8 @@ const Navigationbar = () => {
                 href="/"
                 style={{
                   transition: "all 0.2s",
-
+                  fontWeight: "bold",
+                  color: "white",
                   "&:hover": {
                     background: "white",
                   },

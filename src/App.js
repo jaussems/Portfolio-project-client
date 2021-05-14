@@ -23,7 +23,7 @@ function App() {
 
   return (
     <div className="App">
-      <Navigationbar />
+      <Navigationbar style={{ color: "white" }} />
       <Message />
       {isLoading ? <Loading /> : null}
       <Switch>
