@@ -6,7 +6,9 @@ export default function AdminNav() {
   return (
     <>
       <Nav.Item as="li">
-        <Nav.Link href="/admin/users">Admin Page</Nav.Link>
+        <Nav.Link href="/admin/users" style={{ color: "white" }}>
+          Admin Page
+        </Nav.Link>
       </Nav.Item>
     </>
   );
