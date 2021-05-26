@@ -1,19 +1,29 @@
 import Button from "react-bootstrap/Button";
-
+import "./comment.css";
 const Comment = (props) => {
   return (
     <div
-      style={{
-        backgroundColor: "white",
-        opacity: "55%",
-        width: "25%",
-        borderRadius: "58px",
-        marginLeft: "auto",
-        marginRight: "auto",
-      }}
+      // style={{
+      //   backgroundColor: "white",
+      //   opacity: "55%",
+      //   width: "25%",
+      //   borderRadius: "58px",
+      //   marginLeft: "auto",
+      //   marginRight: "auto",
+      // }}
+      className="comment-div"
     >
-      <p>{props.name}</p>
-      <p>{props.content}</p>
+      <div class="card">
+        <div className="card-header" id="headername">
+          <div>
+            <p>{props.name}</p>
+          </div>
+          <hr />
+          <div>
+            <p>{props.content}</p>
+          </div>
+        </div>
+      </div>
       <div>
         {props.isUser ? (
           <Button

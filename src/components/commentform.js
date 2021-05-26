@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 
 const Commentform = (props) => {
   return (
-    <Container>
+    <Container class="container-md">
       <Form>
         <Form.Label>
           {" "}

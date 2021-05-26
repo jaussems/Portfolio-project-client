@@ -5,7 +5,6 @@ import { selectUser } from "../store/user/selector";
 import CoinComponentProfile from "../components/Coincomponent3";
 import { GetUserFavorites } from "../store/user/actions";
 import { selectUserCoins } from "../store/user/selector";
-import { selectUserId } from "../store/user/selector";
 import { useHistory } from "react-router-dom";
 import { showMessageWithTimeout } from "../../src/store/Message/action";
 const ProfilePage = () => {
@@ -13,7 +12,8 @@ const ProfilePage = () => {
   const dispatch = useDispatch();
   const usercoins = useSelector(selectUserCoins);
   const history = useHistory();
-  const userid = useSelector(selectUserId);
+
+  //const userid = useSelector(selectUserId);
 
   useEffect(() => {
     if (!user.token) {
@@ -27,15 +27,12 @@ const ProfilePage = () => {
         1500
       )
     );
-    dispatch(GetUserFavorites(userid));
-  }, [dispatch, userid]);
+    dispatch(GetUserFavorites(user.id));
+  }, [dispatch, user.id]);
 
   return (
     <>
-      <div style={{ backgroundColor: "blueviolet" }}>
-        <h1>Profile Page</h1>
-      </div>
-      <div>
+      <div style={{ height: "100vh" }}>
         <h3>The coins I have:</h3>
         <div>
           {usercoins.map((usercoins) => {

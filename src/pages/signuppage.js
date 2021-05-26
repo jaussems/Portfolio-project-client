@@ -33,7 +33,7 @@ const SignupPage = () => {
   }
 
   return (
-    <Container>
+    <Container style={{ height: "100vh" }}>
       <Form>
         <Form.Label>
           {" "}
