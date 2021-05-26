@@ -1,6 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans&display=swap");
+
+/* font-family: "Trocchi"; */
+* {
+  margin: 0px;
+}
 .App {
   text-align: center;
-  font-family: "Trocchi";
+
+  font-family: "PT Sans", sans-serif;
   color: rgb(0, 0, 0);
   background: linear-gradient(
     -45deg,
@@ -10,9 +17,11 @@
     #23a6d5 55%,
     #0205c586 25%
   );
-  overflow-y: auto;
-  height: 100vh;
+  overflow-y: hidden;
+  /* height: 100vh; */
+  height: 100%;
   background-attachment: fixed;
+  background-position: center;
 }
 
 .App-logo {

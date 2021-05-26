@@ -12,14 +12,6 @@ export default function Message() {
 
   return (
     <Alert
-      style={{
-        backgroundColor: "green",
-        fontSize: "20px",
-        width: "400px",
-        opacity: "55%",
-        marginLeft: "auto",
-        marginRight: "auto",
-      }}
       show={showMessage}
       variant={message.variant}
       dismissible={message.dismissable}

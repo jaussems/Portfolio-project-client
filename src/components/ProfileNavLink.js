@@ -1,22 +1,11 @@
 import React from "react";
-
-import Nav from "react-bootstrap/Nav";
+import NavbarItem from "../components/navbarItem";
 import { selectUser } from "../store/user/selector";
 import { useSelector } from "react-redux";
 export default function ProfileNavLink() {
   const user = useSelector(selectUser);
 
   return (
-    <>
-      <Nav.Item as="li">
-        <Nav.Link
-          eventKey="Coins"
-          href={`/user/${user.id}`}
-          style={{ color: "white" }}
-        >
-          Your profile
-        </Nav.Link>
-      </Nav.Item>
-    </>
+    <NavbarItem path={`/user/${user.id}`} linkText="Your Profile"></NavbarItem>
   );
 }

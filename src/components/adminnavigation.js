@@ -1,15 +1,6 @@
 import React from "react";
-
-import Nav from "react-bootstrap/Nav";
+import NavbarItem from "../components/navbarItem";
 
 export default function AdminNav() {
-  return (
-    <>
-      <Nav.Item as="li">
-        <Nav.Link href="/admin/users" style={{ color: "white" }}>
-          Admin Page
-        </Nav.Link>
-      </Nav.Item>
-    </>
-  );
+  return <NavbarItem path="/admin/users" linkText="Admin Page"></NavbarItem>;
 }

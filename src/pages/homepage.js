@@ -1,46 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { fetchCoins, fetchmoreCoins } from "../store/homepage/actions";
 import { useDispatch, useSelector } from "react-redux";
+import { Button } from "react-bootstrap";
+import {
+  appLoading,
+  appDoneLoading,
+  setMessage,
+} from "../store/Message/action";
+import { selectAppLoading } from "../store/Message/selector";
+import { PageNavComponent } from "../components/Pagination";
 import useInterval from "../hooks/useInterval";
+import { useParams } from "react-router-dom";
 import useWindowScrollPosition from "@rooks/use-window-scroll-position";
-
+import Table from "react-bootstrap/Table";
 import { getCoinData } from "../store/homepage/selector";
 import CoinComponent from "../components/coin";
 import { GetUserFavorites } from "../store/user/actions";
 import {
   selectUserCoins,
-  selectUserId,
   selectToken,
   selectUser,
 } from "../store/user/selector";
 
 const Homepage = () => {
   const dispatch = useDispatch();
-
   const token = useSelector(selectToken);
   const allusercoins = useSelector(selectUserCoins);
   let allcoins = useSelector(getCoinData);
+  const savedcoins = useRef();
+  savedcoins.current = allcoins;
 
-  const userid = useSelector(selectUserId);
   const user = useSelector(selectUser);
-  const [posts, setposts] = useState(100);
-  const [page, setpage] = useState(1);
 
-  const [sortcoins, setSortCoins] = useState(0);
+  const [sortcoins, setSortCoins] = useState("");
 
+  const { pageindex } = useParams();
   if (sortcoins === 0) {
-    const SortAndMap = (arr) => {
-      const copy = arr.slice();
-      const sorter = (a, b) => {
-        return a["index"] - b["index"];
-      };
-      copy.sort(sorter);
-      const res = copy.map(({ name, index }) => {
-        return name;
-      });
-      return res;
-    };
-    SortAndMap(allcoins);
+    allcoins = [...savedcoins.current];
   } else if (sortcoins === 1) {
     allcoins.sort((a, b) => {
       return a.id.localeCompare(b.id);
@@ -60,61 +56,53 @@ const Homepage = () => {
     (favoritecoin) => favoritecoin.stringCoinId
   );
 
-  function ScrollPosition() {
-    let { scrollY } = useWindowScrollPosition();
-
-    if (window.innerHeight + scrollY > document.body.offsetHeight) {
-      dispatch(fetchmoreCoins(50, 3));
-
-      return;
-    }
-  }
-
-  ScrollPosition();
   useInterval(
     () => {
-      dispatch(fetchCoins(posts, page));
+      dispatch(fetchCoins(100, pageindex));
     },
 
     30000
   );
 
   useEffect(() => {
-    dispatch(fetchCoins(posts, page));
-
+    dispatch(fetchCoins(100, pageindex));
     if (token && user) {
-      dispatch(GetUserFavorites(userid));
+      dispatch(GetUserFavorites(user.id));
     }
-    setposts(100);
-    setpage(1);
-  }, [dispatch, userid]);
+  }, [dispatch, user.id, sortcoins, pageindex]);
 
   return (
-    <>
+    <div>
+      <h1>Welcome to the homepage</h1>
       <div>
-        <h1>Welcome to the homepage</h1>
-        <div>
-          <label>Sort by </label>
-          <select
-            value={sortcoins}
-            onChange={(e) => setSortCoins(parseInt(e.target.value))}
-          >
-            <option name="all" value={0}>
-              ---
-            </option>
-            <option name="name" value={1}>
-              By Name
-            </option>
-            <option name="lowest-price" value={2}>
-              By Lowest Price
-            </option>
-            <option name="highest-price" value={3}>
-              By Highest Price
-            </option>
-          </select>
+        <div style={{ marginTop: "30px" }}>
+          <PageNavComponent
+            pageref={pageindex}
+            isCurrentPage={parseInt(pageindex)}
+          />
         </div>
-
-        <table>
+        <label style={{ padding: "2px" }}>Sort by </label>
+        <select
+          className="btn btn-sm btn-info"
+          value={sortcoins}
+          onChange={(e) => setSortCoins(parseInt(e.target.value))}
+        >
+          <option name="all" value={0}>
+            ---
+          </option>
+          <option name="name" value={1}>
+            By Name
+          </option>
+          <option name="lowest-price" value={2}>
+            By Lowest Price
+          </option>
+          <option name="highest-price" value={3}>
+            By Highest Price
+          </option>
+        </select>
+      </div>
+      <div>
+        <Table responsive="lg" borderless>
           <thead style={{ textAlign: "inherit" }}>
             <tr>
               <th scope="col">#</th>
@@ -135,13 +123,13 @@ const Homepage = () => {
                   name={coins.name}
                   imageUrl={coins.image}
                   percetange={
-                    coins.price_change_percentage_24h > 0 ? (
+                    coins?.price_change_percentage_24h > 0 ? (
                       <span style={{ color: "green" }}>
-                        {coins.price_change_percentage_24h.toFixed(2) + "↑ "}{" "}
+                        {coins?.price_change_percentage_24h?.toFixed(2) + "↑ "}{" "}
                       </span>
                     ) : (
                       <span style={{ color: "red" }}>
-                        {coins.price_change_percentage_24h.toFixed(2) + "↓"}
+                        {coins?.price_change_percentage_24h?.toFixed(2) + "↓"}
                       </span>
                     )
                   }
@@ -157,9 +145,15 @@ const Homepage = () => {
               );
             })}
           </tbody>
-        </table>
+        </Table>
+        <div>
+          <PageNavComponent
+            pageref={pageindex}
+            isCurrentPage={parseInt(pageindex)}
+          />
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

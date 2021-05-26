@@ -69,7 +69,7 @@ export const signUp = (firstName, email, password) => {
 
 export const login = (email, password) => {
   return async (dispatch, getState) => {
-    dispatch(appLoading());
+    //dispatch(appLoading());
     try {
       const response = await axios.post(`${apiUrl}/login`, {
         email,
@@ -78,16 +78,20 @@ export const login = (email, password) => {
 
       dispatch(loginSuccess(response.data));
       dispatch(showMessageWithTimeout("success", false, "welcome back!", 1500));
-      dispatch(appDoneLoading());
+      //dispatch(appDoneLoading());
     } catch (error) {
       if (error.response) {
         console.log(error.response.data.message);
-        dispatch(setMessage("error", true, error.response.data.message));
+        dispatch(
+          showMessageWithTimeout("danger", true, error.response.data.message)
+        );
+        //dispatch(setMessage("error", true, error.response.data.message));
+        //dispatch(appDoneLoading());
       } else {
         console.log(error.message);
-        dispatch(
-          setMessage("error message", true, error.response.data.message)
-        );
+        dispatch(showMessageWithTimeout("danger", true, error.message));
+
+        //dispatch(appDoneLoading());
       }
     }
   };

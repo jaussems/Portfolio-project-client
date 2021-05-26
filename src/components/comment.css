@@ -1,0 +1,22 @@
+.comment-div {
+  text-align: center;
+  font-weight: bold;
+  width: 30em;
+
+  height: max-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.comment-div div {
+  text-decoration-color: lightblue;
+}
+
+.card-header {
+  text-align: center;
+  background-color: lightskyblue;
+}
+
+.card-header div {
+  text-align: center;
+}
