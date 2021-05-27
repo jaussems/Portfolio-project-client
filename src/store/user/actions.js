@@ -194,7 +194,7 @@ export const DeleteUserFavorites = (userid, stringCoinId) => {
       );
 
       dispatch(userFavoriteDeleted(response.data.deletedcoin));
-
+      dispatch(GetUserFavorites(userid));
       dispatch(
         showMessageWithTimeout("success", false, "deleted favorite", 1500)
       );

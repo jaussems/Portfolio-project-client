@@ -32,7 +32,7 @@ const LoginInPage = () => {
   }
 
   return (
-    <Container style={{ height: "100vh" }}>
+    <Container style={{ height: "100vh", width: "25%" }}>
       <Form>
         <Form.Label>
           {" "}

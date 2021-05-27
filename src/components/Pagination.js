@@ -1,4 +1,6 @@
 export const PageNavComponent = (props) => {
+  //array.length
+
   let items = [];
   for (let number = 1; number <= 10; number++) {
     items.push(
@@ -31,23 +33,3 @@ export const PageNavComponent = (props) => {
     </nav>
   );
 };
-
-// return (
-// <nav aria-label="..." style={{ marginLeft: "auto", marginRight: "auto" }}>
-//   <ul class="pagination pagination-mg">
-//     <li class="page-item">
-//       <a class="page-link" href={parseInt(props.pageref) - 1}>
-//         Previous
-//       </a>
-//     </li>
-
-//     {items}
-//     <li class="page-item">
-//       <a class="page-link" href={parseInt(props.pageref) + 1}>
-//         Next
-//       </a>
-//     </li>
-//   </ul>
-// </nav>
-// );
-// };

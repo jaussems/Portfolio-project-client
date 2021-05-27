@@ -7,13 +7,6 @@ const Coincomponent3 = (props) => {
       <div
         style={{
           backgroundColor: "transparent",
-          opacity: "55%",
-          padding: "5px",
-          justifyContent: "center",
-          display: "flex",
-          gap: "34px",
-          height: "75px",
-          width: "100%",
         }}
       >
         <img
@@ -25,25 +18,9 @@ const Coincomponent3 = (props) => {
           <h1>{props.name}</h1>
           <h2>{props.price}</h2>
         </div>
-        <div
-          style={{
-            textOverflow: "ellipsis",
-            whiteSpace: "nowrap",
-            overFlow: "hidden",
-            width: "10%",
-            alignItems: "center",
-          }}
-        >
-          <Link to={`/coins/${props.name.toLowerCase()}`}>
-            <Button
-              style={{
-                backgroundColor: "orange",
-                marginTop: "2.25em",
-                alignText: "center",
-                justifyContent: "flex-end",
-                width: "10em",
-              }}
-            >
+        <div style={{}}>
+          <Link to={`/coins/${props.coinid}`}>
+            <Button class="btn btn-info" style={{ marginTop: "1em" }}>
               See Details
             </Button>
           </Link>

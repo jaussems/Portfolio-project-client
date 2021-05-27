@@ -118,6 +118,7 @@ const Homepage = () => {
               return (
                 <CoinComponent
                   key={index}
+                  id={coins.id}
                   randomcolor={Math.floor(Math.random() * 16)}
                   number={index + 1}
                   name={coins.name}
@@ -136,11 +137,7 @@ const Homepage = () => {
                   currentprice={coins.current_price}
                   alt={coins.symbol}
                   coinid={coins.id}
-                  isLiked={
-                    allstringcoinid.includes(coins.name.toLowerCase())
-                      ? true
-                      : false
-                  }
+                  isLiked={allstringcoinid.includes(coins.id) ? true : false}
                 />
               );
             })}

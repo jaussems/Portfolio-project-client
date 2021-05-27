@@ -31,23 +31,23 @@ const ProfilePage = () => {
   }, [dispatch, user.id]);
 
   return (
-    <>
-      <div style={{ height: "100vh" }}>
-        <h3>The coins I have:</h3>
-        <div>
-          {usercoins.map((usercoins) => {
-            return (
-              <div key={usercoins.stringCoinId}>
-                <CoinComponentProfile
-                  name={usercoins.name}
-                  imageUrl={usercoins.imageUrl}
-                />
-              </div>
-            );
-          })}
-        </div>
+    <div style={{ minHeight: "1080px" }}>
+      <h3>The coins I have:</h3>
+      <div>{!usercoins ? <p>No coins to display yet!</p> : null}</div>
+      <div>
+        {usercoins.map((usercoins) => {
+          return (
+            <div key={usercoins.stringCoinId}>
+              <CoinComponentProfile
+                name={usercoins.name}
+                imageUrl={usercoins.imageUrl}
+                coinid={usercoins.stringCoinId.split(" ").join("")}
+              />
+            </div>
+          );
+        })}
       </div>
-    </>
+    </div>
   );
 };
 

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import CoinComponent2 from "../components/coincomponent2";
 import CommentComponent from "../components/comment";
+import moment from "moment";
 import Table from "react-bootstrap/Table";
 import Coinchart from "../components/coinchart";
 import Commentform from "../components/commentform";
@@ -16,7 +17,7 @@ import {
 } from "../store/specificcoinpage/action";
 import { GetSingleCoin, GetComments } from "../store/specificcoinpage/selector";
 import "./specificcoinstyle.css";
-import { selectToken, selectUser, selectUserId } from "../store/user/selector";
+import { selectToken, selectUser } from "../store/user/selector";
 
 const SpecificCoinPage = () => {
   const dispatch = useDispatch();
@@ -172,6 +173,23 @@ const SpecificCoinPage = () => {
       </div>
 
       <div class="container-fluid">
+        <h1>Comments</h1>
+        {comments?.map((usercomments, index) => {
+          return (
+            <div>
+              <CommentComponent
+                key={index}
+                date={usercomments.createdAt}
+                name={usercomments.name}
+                content={usercomments.content}
+                isUser={usercomments.userId === user.id ? true : false}
+                isClicked={DeleteComment}
+              />
+            </div>
+          );
+        })}
+      </div>
+      <div class="container-fluid">
         <div>
           {token ? (
             <Commentform
@@ -187,23 +205,6 @@ const SpecificCoinPage = () => {
             />
           ) : null}
         </div>
-      </div>
-
-      <div>
-        <h1>Comments</h1>
-        {comments?.map((usercomments, index) => {
-          return (
-            <div>
-              <CommentComponent
-                key={index}
-                name={usercomments.name}
-                content={usercomments.content}
-                isUser={usercomments.userId === user.id ? true : false}
-                isClicked={DeleteComment}
-              />
-            </div>
-          );
-        })}
       </div>
     </div>
   );

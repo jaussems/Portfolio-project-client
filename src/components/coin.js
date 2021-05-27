@@ -15,7 +15,8 @@ const Coin = (props) => {
   const user = useSelector(selectUser);
 
   const allusercoins = useSelector(selectUserCoins);
-  const coinStringId = props.name.toLowerCase();
+  //const coinStringId = props.name.toLowerCase();
+  const coinStringId = props.id;
   const allstringcoinid = allusercoins.map(
     (favoritecoin) => favoritecoin.stringCoinId
   );
@@ -36,7 +37,9 @@ const Coin = (props) => {
           width: "80%",
         }}
       >
-        <th scope="row">{props.number}</th>
+        <th scope="row" style={{ padding: "2em" }}>
+          {props.number}
+        </th>
         <td>
           <img
             src={props.imageUrl}
@@ -75,14 +78,7 @@ const Coin = (props) => {
 
         <td>
           <Link to={`/coins/${props.coinid}`}>
-            <Button
-              style={{
-                backgroundColor: "orange",
-                alignText: "center",
-                justifyContent: "flex-end",
-                width: "4em",
-              }}
-            >
+            <Button class="btn btn-info" style={{ marginTop: "1em" }}>
               See Details
             </Button>
           </Link>
@@ -93,3 +89,12 @@ const Coin = (props) => {
 };
 
 export default Coin;
+
+//class="btn btn-info"
+
+// style={{
+//   backgroundColor: "orange",
+//   alignText: "center",
+//   justifyContent: "flex-end",
+//   width: "4em",
+// }}
