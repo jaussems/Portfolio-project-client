@@ -1,3 +1,5 @@
+import CommentComponent from "../components/comment";
+
 const userComponent = (props) => {
   return (
     <div>

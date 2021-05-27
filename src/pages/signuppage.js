@@ -33,27 +33,26 @@ const SignupPage = () => {
   }
 
   return (
-    <Container style={{ height: "100vh" }}>
+    <Container style={{ height: "100vh", width: "25%" }}>
       <Form>
         <Form.Label>
           {" "}
           <h2>Welcome the sign up page</h2>
         </Form.Label>
-        <Col xs={7}>
-          <Container style={{ padding: "5px", margin: "10px" }}>
-            <Form.Group controlId="formGroupEmail">
-              <Form.Label>First name </Form.Label>
-              <br />
-              <Form.Control
-                type="email"
-                placeholder="Enter first name"
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                }}
-              />
-            </Form.Group>
-          </Container>
-        </Col>
+
+        <Container style={{ padding: "5px", margin: "10px" }}>
+          <Form.Group controlId="formGroupEmail">
+            <Form.Label>First name </Form.Label>
+            <br />
+            <Form.Control
+              type="email"
+              placeholder="Enter first name"
+              onChange={(e) => {
+                setFirstName(e.target.value);
+              }}
+            />
+          </Form.Group>
+        </Container>
 
         <Container style={{ padding: "5px", margin: "10px" }}>
           <Form.Group controlId="formGroupEmail">

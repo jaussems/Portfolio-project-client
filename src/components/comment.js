@@ -1,24 +1,18 @@
 import Button from "react-bootstrap/Button";
+import moment from "moment";
 import "./comment.css";
 const Comment = (props) => {
   return (
-    <div
-      // style={{
-      //   backgroundColor: "white",
-      //   opacity: "55%",
-      //   width: "25%",
-      //   borderRadius: "58px",
-      //   marginLeft: "auto",
-      //   marginRight: "auto",
-      // }}
-      className="comment-div"
-    >
+    <div className="comment-div">
       <div class="card">
         <div className="card-header" id="headername">
           <div>
-            <p>{props.name}</p>
+            <p>
+              {props.name} wrote on{" "}
+              {<span>{moment(props.date).format("YYYY-MM-DD")}</span>} :{" "}
+            </p>
           </div>
-          <hr />
+
           <div>
             <p>{props.content}</p>
           </div>
@@ -27,8 +21,9 @@ const Comment = (props) => {
       <div>
         {props.isUser ? (
           <Button
+            type="button"
+            class="btn btn-danger"
             onClick={props.isClicked}
-            style={{ backgroundColor: "red", borderRadius: "58px" }}
           >
             {" "}
             DELETE COMMENT{" "}

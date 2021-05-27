@@ -1,23 +1,21 @@
-import Button from "react-bootstrap/Button";
-
 export default function ButtonComponent(props) {
   //const userLiked = false;
   //value={userLiked ? "⭐" : "☆"}
   return (
     <>
-      <Button
+      <button
         style={{
           width: "20px",
           padding: "0",
-          border: "none",
-          background: "none",
+          border: "0px solid green",
+          background: "transparent",
           fontSize: "50px",
         }}
         onClick={props.onClick}
         value={props.value}
       >
-        {props.liked ? "⭐" : "☆"}
-      </Button>
+        {props.liked ? <span style={{ marginLeft: "-8px" }}>⭐</span> : "☆"}
+      </button>
     </>
   );
 }
